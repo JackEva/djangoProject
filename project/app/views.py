@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from .forms import StudentForm
+from .forms import StudentForm,FacultyForm
 from .models import Faculty
 
 
-def sample(request):
+def sample1(request):
     form = StudentForm()
     if request.method == "POST":
         form = StudentForm(request.POST)
@@ -19,6 +19,9 @@ def faculty(request):
     res = Faculty.objects.all()
     Faculty.objects.filter()
     
+
+
+    
     return render(request, 'app/faculty.html', context={'res': res})
 
 
@@ -31,17 +34,21 @@ def update_faculty(request, id):
     return render(request, 'app/faculty.html', context={'form': form})
 
 def create_faculty(request):
-    Faculty.objects.create(
-        first_name = 'John1',
-        last_name = 'Doe',
-        age = 30,
-        email = 'venkatra0@gmail.com', 
-        gender = 'male',
-    )
-    return redirect('faculty')
+    if request.method == "POST":
+        fist_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        age = request.POST.get('age')
+        email = request.POST.get('email') 
+        gender = request.POST.get('gender')
+        Faculty.objects.create(first_name=fist_name, last_name=last_name, age=age, email=email, gender=gender)
+        return redirect('faculty')
+    return render(request, 'app/faculty.html')
 
 
 def delete_faculty(request, id):
     res = Faculty.objects.get(id=id)
     res.delete()
     return redirect('faculty')
+
+def sample(request):
+    return render(request, "app/sample.html")

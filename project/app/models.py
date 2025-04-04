@@ -17,4 +17,16 @@ class Faculty(models.Model):
 
     class Meta: 
         db_table = 'faculty_table'
+
+
+class employee(models.Model):
+    emp_name = models.CharField(max_length=100)
+    emp_designation = models.CharField(max_length=100)
+    emp_department = models.CharField(max_length=100)
+    emp_salary = models.IntegerField()
+    emp_age = models.IntegerField()
+    emp_email = models.EmailField()
+
+    class Meta:
+        db_table = 'employee_table'
   

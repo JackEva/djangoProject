@@ -1,6 +1,8 @@
 {% load django_bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Page Title{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
    </head>
 
    
@@ -15,23 +18,39 @@
 <body>
         <h1>Faculty List</h1>
         <!-- Page-specific content goes here -->
-        <table class="container table table-striped table-bordered table-hover">
-        
+        <table class="container table table-striped table-bordered table-hover" width='900PX'>
+       
         <th>first_name</th>
         <th>last_name</th>
         <th>age</th>
         <th>email</th> 
+        <th>gender</th> 
+        <th>action</th>
         {% for i in res %}
             <tr>
+            
             <td>{{ i.first_name }}</td>
             <td>{{ i.last_name }}</td>
             <td>{{ i.age }}</td>
             <td>{{i.email}}</td>
+            <td>{{i.gender}}</td>
+            <td><button class='btn btn-danger'><a href='{% url 'delete_faculty' id=i.id %}' class='delete'>Delete</a></button></td>
+          
             </tr>
         {% endfor %}
-        <td><input type='text' placeholder="ft"></td>
-        <td>{{ i.last_name }}</td>
-        <td>{{ i.age }}</td>
+        <form action="{% url 'create_faculty' %}" method="post">
+
+                {% csrf_token %}
+
+                <tr>
+                    <td><input class='dataInput' type='text' placeholder="last_name" name='last_name'></td>
+                    <td><input class='dataInput' type='text' placeholder="first_name" name='first_name'></td>
+                    <td><input class='dataInput' type='text' placeholder="age" name='age'></td>
+                    <td><input class='dataInput' type='email' placeholder="email" name=email></td>
+                    <td><input class='dataInput' type='text' placeholder="gender" name=gender></td>
+                    <td><button class='btn btn-success'type='submit'>Add</button></td>
+                </tr>
+            </form>
         </table>
        
     
