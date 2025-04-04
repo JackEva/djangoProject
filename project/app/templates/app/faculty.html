@@ -1,0 +1,39 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Page Title{% endblock %}</title>
+   </head>
+
+   
+</head>
+<body>
+        <h1>Faculty List</h1>
+        <!-- Page-specific content goes here -->
+        <table class="container table table-striped table-bordered table-hover">
+        
+        <th>first_name</th>
+        <th>last_name</th>
+        <th>age</th>
+        <th>email</th> 
+        {% for i in res %}
+            <tr>
+            <td>{{ i.first_name }}</td>
+            <td>{{ i.last_name }}</td>
+            <td>{{ i.age }}</td>
+            <td>{{i.email}}</td>
+            </tr>
+        {% endfor %}
+        <td><input type='text' placeholder="ft"></td>
+        <td>{{ i.last_name }}</td>
+        <td>{{ i.age }}</td>
+        </table>
+       
+    
+</body>
+</html>
