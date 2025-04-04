@@ -9,4 +9,4 @@ class StudentForm(ModelForm):
 class FacultyForm(ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'age', 'email', ]
+        fields = ['name', 'age', 'email' ]
