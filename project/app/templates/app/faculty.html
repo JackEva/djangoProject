@@ -23,8 +23,9 @@
     {% block content %}
         
     
-        
-        <h1>Faculty List</h1>
+    <br>
+        <h1>Hey {{user}}</h1>
+        <br>
         <!-- Page-specific content goes here -->
         <table class="container table table-striped table-bordered table-hover" width='900PX'>
        
@@ -51,11 +52,11 @@
                 {% csrf_token %}
 
                 <tr>
-                    <td><input class='sdf' type='text' placeholder="last_name" name='last_name'></td>
-                    <td><input class='dataInput' type='text' placeholder="first_name" name='first_name'></td>
-                    <td><input class='dataInput' type='text' placeholder="age" name='age'></td>
-                    <td><input class='dataInput' type='email' placeholder="email" name=email></td>
-                    <td><input class='dataInput' type='text' placeholder="gender" name=gender></td>
+                    <td><input class='sdf' type='text' placeholder="last_name" name='last_name' required></td>
+                    <td><input class='dataInput' type='text' placeholder="first_name" name='first_name' required></td>
+                    <td><input class='dataInput' type='text' placeholder="age" name='age' required></td>
+                    <td><input class='dataInput' type='email' placeholder="email" name=email required></td>
+                    <td><input class='dataInput' type='text' placeholder="gender" name=gender required></td>
                     <td><button class='btn btn-success'type='submit'>Add</button></td>
                 </tr>
             </form>

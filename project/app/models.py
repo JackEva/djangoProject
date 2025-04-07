@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
@@ -14,7 +15,7 @@ class Faculty(models.Model):
     age = models.IntegerField()
     email = models.EmailField()
     gender = models.CharField(max_length=10)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)   
     class Meta: 
         db_table = 'faculty_table'
 

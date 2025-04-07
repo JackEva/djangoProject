@@ -6,6 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.hashers import make_password, check_password
+import hashlib
+
+def sha256_hash(password):
+    sha256 = hashlib.sha256()
+    sha256.update(password.encode('utf-8'))
+    return sha256.hexdigest()
 
 @login_required(login_url='user_login')
 def sample1(request):
@@ -13,17 +19,18 @@ def sample1(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             return HttpResponse("Form submitted successfully")
     else:
         form = StudentForm()
     return render(request, "app/base.html", {"form": form})
+
 @login_required(login_url='user_login')
 def faculty(request):
-    res = Faculty.objects.all()
-    Faculty.objects.filter()
-    
-    return render(request, 'app/faculty.html', context={'res': res})
+    us = request.session.get('username')
+    username = User.objects.get(username=us)
+    res = Faculty.objects.filter(user=username)
+    return render(request, 'app/faculty.html', context={'res': res, 'user':us})
 
 @login_required(login_url='user_login')
 def update_faculty(request, id):
@@ -36,13 +43,15 @@ def update_faculty(request, id):
 
 @login_required(login_url='user_login')
 def create_faculty(request):
+    user = request.session.get('username')
     if request.method == "POST":
         fist_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         age = request.POST.get('age')
         email = request.POST.get('email') 
         gender = request.POST.get('gender')
-        Faculty.objects.create(first_name=fist_name, last_name=last_name, age=age, email=email, gender=gender)
+        username = User.objects.get(username=user)
+        Faculty.objects.create(first_name=fist_name, last_name=last_name, age=age, email=email, gender=gender, user=username)
         return redirect('faculty')
     return render(request, 'app/faculty.html')
 
@@ -63,6 +72,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
+            request.session['username']=username
             return redirect('faculty')  
         else:
             return HttpResponse("Invalid credentials")
@@ -92,6 +102,6 @@ def user_register(request):
                 user.save()
                 return redirect('user_login')
         else:
-           return HttpResponse(f"Passwords do not match {password}{confirm_password}",password,confirm_password) 
+           return HttpResponse("Passwords do not match ") 
         
     return render(request, 'app/register.html')
