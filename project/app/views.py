@@ -5,6 +5,7 @@ from .models import Faculty
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.hashers import make_password, check_password
 
 @login_required(login_url='user_login')
 def sample1(request):
@@ -71,3 +72,26 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return render(request, 'app/loginPage.html')
+
+
+def user_register(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        email = request.POST.get('email')
+
+        if password == confirm_password:
+            
+            if User.objects.filter(username=username).exists():
+                return HttpResponse("Username already exists")
+            elif User.objects.filter(email=email).exists():
+                return HttpResponse("Email already exists")
+            else:
+                user = User.objects.create_user(username=username, password=password, email=email)
+                user.save()
+                return redirect('user_login')
+        else:
+           return HttpResponse(f"Passwords do not match {password}{confirm_password}",password,confirm_password) 
+        
+    return render(request, 'app/register.html')
