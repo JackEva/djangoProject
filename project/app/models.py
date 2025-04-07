@@ -30,3 +30,10 @@ class employee(models.Model):
     class Meta:
         db_table = 'employee_table'
   
+class user(models.Model):
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    class Meta:
+        db_table = 'user_table'
